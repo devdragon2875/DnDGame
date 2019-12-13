@@ -22,7 +22,7 @@ public class Client {
 		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		*/
-		DrawingSurface drawing = new DrawingSurface();
+		SketchpadSurface drawing = new SketchpadSurface();
 		PApplet.runSketch(new String[] { "DND" }, drawing);
 		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();

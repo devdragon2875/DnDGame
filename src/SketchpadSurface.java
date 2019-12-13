@@ -3,9 +3,9 @@ import java.awt.Color;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PGraphics2D;
+import processing.event.KeyEvent;
 
-public class DrawingSurface extends PApplet {
+public class SketchpadSurface extends PApplet {
 
 	private static final int GRID_SIZE = 50;
 	private static final int GRID_LINE = 3;
@@ -127,7 +127,7 @@ public class DrawingSurface extends PApplet {
 					canvas.endDraw();
 					exit();
 				}
-			}
+			} 
 
 		} else {
 			MENU = false;
@@ -160,5 +160,7 @@ public class DrawingSurface extends PApplet {
 		// GRID_SIZE);
 
 	}
+	
+	
 
 }
