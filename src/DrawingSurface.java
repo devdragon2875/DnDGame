@@ -1,12 +1,9 @@
-import processing.core.PApplet;
-import processing.core.PFont;
-import processing.core.PImage;
-import processing.event.KeyEvent;
-
 import java.awt.Color;
-import java.awt.Polygon;
-import java.io.Serializable;
-import java.util.ArrayList;
+
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.opengl.PGraphics2D;
 
 public class DrawingSurface extends PApplet {
 
@@ -14,14 +11,17 @@ public class DrawingSurface extends PApplet {
 	private static final int GRID_LINE = 3;
 	private static boolean MENU = false;
 	PImage img;
+	
 	Color lineColor = new Color(0);
+	private boolean eraseMode = false;
 	int weight = 3;
 	int locY = 0;
 	private int alpha = 255;
 
 	public void settings() {
 		size(1200, 800);
-		smooth(0);
+		
+
 
 	}
 
@@ -30,13 +30,11 @@ public class DrawingSurface extends PApplet {
 	}
 
 	public void setup() {
-		background(255, 0);
-		
+
 	}
 
 	public void draw() {
-		// background(0);
-
+		//background(255, 0);
 		MENU = true;
 
 		noStroke();
@@ -93,34 +91,42 @@ public class DrawingSurface extends PApplet {
 					alpha = 255;
 				} else if (mouseX < 210) {
 					lineColor = new Color(0, 0, 0);
-					alpha  = 0;
+					alpha = 0;
+
 				} else if (mouseX < 240) {
 					weight = 8;
 				} else if (mouseX < 270) {
 					weight = 18;
 				} else if (mouseX < 300) {
 					// SAVE
-					//img = new PImage(300, 300, RGB);
-					saveFrame("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\Test.jpg");
+					// img = new PImage(300, 300, RGB);
+					
+					img = this.getGraphics().get(0, 30, 300, 300);
+					// saveFrame("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\Test.jpg");
+					img.save("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\Test.png");
 					exit();
 				}
 			}
 
 		} else {
 			MENU = false;
-
+			// canvas.beginDraw();
 			if (mousePressed == true) {
+
 				strokeWeight(weight);
 				stroke(lineColor.getRGB(), alpha);
 				line(mouseX, mouseY, pmouseX, pmouseY);
+
 			}
+			// canvas.updatePixels();
+			// image(canvas, 0, 30, 300, 300);
+			// canvas.endDraw();
 		}
 
 		// rect(mouseX-(mouseX%GRID_SIZE), mouseY-(mouseY%GRID_SIZE), GRID_SIZE,
 		// GRID_SIZE);
 
 	}
-	
-	
 
+	
 }
