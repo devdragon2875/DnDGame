@@ -13,8 +13,7 @@ public class DrawingSurface extends PApplet {
 	private static final int MAX_ROW = 4;
 	private static final int MAX_COLUMN = 10;
 
-	private static int MENU_OPTION = 0; // 0 - GRID
-										// 1 - Tiles
+	private static int MENU_OPTION = 1; // 1 - Tiles
 										// 2 - Items
 										// 3 - Monsters
 										// 4 - Character
@@ -42,9 +41,6 @@ public class DrawingSurface extends PApplet {
 
 	public void draw() {
 		background(0);
-		if (mouseX < width - width / 4) {
-			MENU_OPTION = 0;
-		}
 
 		fill(70);
 		rect(width - width / 4, 0, width / 4 + 50, height, 50);
