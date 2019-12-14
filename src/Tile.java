@@ -3,8 +3,12 @@ public class Tile {
 	private int x;
 	private int y;
 	private boolean isWall;
-	private float lightScale;
-	private String imgPath;
+	private double lightScale;
+	private int assetNum;
+	
+	public Tile(int x, int y, boolean isWall, double lightScale) {
+		
+	}
 	
 	
 }
