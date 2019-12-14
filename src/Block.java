@@ -3,10 +3,10 @@ import processing.core.PApplet;
 public class Block {
 	
 	protected float x, y, w, h;
-	protected PApplet parent;
+	protected PApplet drawer;
 	
-	public Block(PApplet parent, float x, float y, float w, float h) {
-		this.parent = parent;
+	public Block(PApplet drawer, float x, float y, float w, float h) {
+		this.drawer = drawer;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -14,7 +14,7 @@ public class Block {
 	}
 	
 	public void show() {
-		parent.rect(x, y, w, h);
+		drawer.rect(x, y, w, h);
 	}
 	
 	public boolean isTouching(Block other) {

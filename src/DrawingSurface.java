@@ -17,8 +17,9 @@ public class DrawingSurface extends PApplet {
 										// 2 - Items
 										// 3 - Monsters
 										// 4 - Character
-
+	private Block optionTile, optionItem, optionCreature, optionCharacter;
 	private TileType tileTypes[][] = new TileType[MAX_ROW][MAX_COLUMN];
+	private TileType tileTypeSelected = null;
 
 	public void settings() {
 		size(1200, 800);
@@ -30,8 +31,12 @@ public class DrawingSurface extends PApplet {
 	}
 
 	public void setup() {
-		SketchpadSurface drawing = new SketchpadSurface();
-		
+		// SketchpadSurface drawing = new SketchpadSurface();
+		optionTile = new Block(this, width - width / 4 + 60, height - 70, 30, 40);
+		optionItem = new Block(this, width - width / 4 + 110, height - 70, 30, 40);
+		optionCreature = new Block(this, width - width / 4 + 160, height - 70, 30, 40);
+		optionCharacter = new Block(this, width - width / 4 + 210, height - 70, 30, 40);
+
 		for (int row = 0; row < MAX_ROW; row++) {
 			for (int column = 0; column < MAX_COLUMN; column++) {
 				tileTypes[row][column] = new TileType(this, row, column, 1, false, 0.5);
@@ -47,39 +52,40 @@ public class DrawingSurface extends PApplet {
 
 		if (MENU_OPTION == 1) {
 			fill(255, 250, 0);
-			rect(width - width / 4 + 60, height - 40, 30, 40);
+			optionTile.show();
 		} else {
 			fill(255);
-			rect(width - width / 4 + 60, height - 40, 30, 40);
+			optionTile.show();
 		}
 
 		if (MENU_OPTION == 2) {
 			fill(255, 250, 0);
-			rect(width - width / 4 + 110, height - 40, 30, 40);
+			optionItem.show();
 		} else {
 			fill(255);
-			rect(width - width / 4 + 110, height - 40, 30, 40);
+			optionItem.show();
 		}
 
 		if (MENU_OPTION == 3) {
 			fill(255, 250, 0);
-			rect(width - width / 4 + 160, height - 40, 30, 40);
+			optionCreature.show();
 		} else {
 			fill(255);
-			rect(width - width / 4 + 160, height - 40, 30, 40);
+			optionCreature.show();
 		}
 
 		if (MENU_OPTION == 4) {
 			fill(255, 250, 0);
-			rect(width - width / 4 + 210, height - 40, 30, 40);
+			optionCharacter.show();
 		} else {
 			fill(255);
-			rect(width - width / 4 + 210, height - 40, 30, 40);
+			optionCharacter.show();
 		}
 
 		if (MENU_OPTION == 1) {
 			for (int row = 0; row < MAX_ROW; row++) {
 				for (int column = 0; column < MAX_COLUMN; column++) {
+
 					tileTypes[row][column].draw();
 				}
 			}
@@ -96,19 +102,41 @@ public class DrawingSurface extends PApplet {
 	}
 
 	public void mousePressed() {
-		if (mouseX >= width - width / 4) {
-			if (mouseY > height - 40) {
-				if (mouseX <= width - width / 4 + 90 && mouseX >= width - width / 4 + 60) {
-					MENU_OPTION = 1;
-				} else if (mouseX <= width - width / 4 + 140 && mouseX >= width - width / 4 + 110) {
-					MENU_OPTION = 2;
-				} else if (mouseX <= width - width / 4 + 190 && mouseX >= width - width / 4 + 160) {
-					MENU_OPTION = 3;
-				} else if (mouseX <= width - width / 4 + 240 && mouseX >= width - width / 4 + 210) {
-					MENU_OPTION = 4;
+		for (int row = 0; row < MAX_ROW; row++) {
+			for (int column = 0; column < MAX_COLUMN; column++) {
+				if (tileTypes[row][column] != null && tileTypes[row][column].isPointInside(mouseX, mouseY)) {
+
+					if (tileTypeSelected == null) {
+						tileTypeSelected = tileTypes[row][column];
+						tileTypes[row][column].setSelected(true);
+					} else if (tileTypes[row][column].equals(tileTypeSelected)) {
+						tileTypeSelected = null;
+						tileTypes[row][column].setSelected(false);
+					} else {
+						for (int row2 = 0; row2 < MAX_ROW; row2++) {
+							for (int column2 = 0; column2 < MAX_COLUMN; column2++) {
+								if (tileTypes[row2][column2].equals(tileTypeSelected)) {
+									tileTypes[row2][column2].setSelected(false);
+								}
+							}
+						}
+						tileTypeSelected = tileTypes[row][column];
+						tileTypes[row][column].setSelected(true);
+
+					}
 				}
 			}
 		}
+		if (optionTile.isPointInside(mouseX, mouseY)) {
+			MENU_OPTION = 1;
+		} else if (optionItem.isPointInside(mouseX, mouseY)) {
+			MENU_OPTION = 2;
+		} else if (optionCreature.isPointInside(mouseX, mouseY)) {
+			MENU_OPTION = 3;
+		} else if (optionCharacter.isPointInside(mouseX, mouseY)) {
+			MENU_OPTION = 4;
+		}
+
 	}
 
 }
