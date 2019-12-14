@@ -31,7 +31,8 @@ public class DrawingSurface extends PApplet {
 	}
 
 	public void setup() {
-
+		SketchpadSurface drawing = new SketchpadSurface();
+		
 		for (int row = 0; row < MAX_ROW; row++) {
 			for (int column = 0; column < MAX_COLUMN; column++) {
 				tileTypes[row][column] = new TileType(this, row, column, 1, false, 0.5);
