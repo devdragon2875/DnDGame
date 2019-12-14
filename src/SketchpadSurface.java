@@ -1,5 +1,9 @@
 import java.awt.Color;
+import java.awt.Dimension;
 
+import javax.swing.JFrame;
+
+import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -27,9 +31,14 @@ public class SketchpadSurface extends PApplet {
 	public void initGame() {
 
 	}
+	
+	public SketchpadSurface() {
+		runSketch(new String[]{"Main"}, this);
+	}
 
 	public void setup() {
 
+		
 		canvas = createGraphics(300, 330, JAVA2D);
 		canvas.beginDraw();
 		canvas.format = ARGB;

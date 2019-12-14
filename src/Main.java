@@ -9,6 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		DrawingSurface drawing = new DrawingSurface();
 		PApplet.runSketch(new String[]{"Main"}, drawing);
+		
 		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();
 		JFrame window = (JFrame)canvas.getFrame();
