@@ -10,7 +10,7 @@ public class TileType extends Block {
 	private double lightScale;
 	private int assetNum;
 	private boolean isDefault;
-
+	private PImage img;
 	
 
 	public TileType(PApplet drawer, int row, int column, int assetNum, boolean isWall, double lightScale) {
@@ -31,9 +31,8 @@ public class TileType extends Block {
 	public void show() {
 
 		super.show();
-		if (!isDefault) {
-			PImage img = drawer.loadImage(
-					DrawingSurface.path +"asset" + assetNum + ".png");
+		if (assetNum != -1) {
+			
 			drawer.image(img, super.x, super.y, super.w, super.h);
 		}
 	}
@@ -75,6 +74,7 @@ public class TileType extends Block {
 	}
 
 	public void setAssetNum(int assetNum) {
+		img = drawer.loadImage(DrawingSurface.path +"asset" + assetNum + ".png");
 		this.assetNum = assetNum;
 	}
 

@@ -68,12 +68,12 @@ public class DrawingSurface extends PApplet {
 		optionMenu = new Block(this, width - width / 4, 0, width / 4 + 50, height);
 		for (int row = 0; row < TILE_MAX_ROW; row++) {
 			for (int column = 0; column < TILE_MAX_COLUMN; column++) {
-				tiles[row][column] = new Tile(this, row * GRID_SIZE, column * GRID_SIZE, false, 1);
+				tiles[row][column] = new Tile(this, row * GRID_SIZE, column * GRID_SIZE, false, 1, -1);
 			}
 		}
 		for (int row = 0; row < MAX_ROW; row++) {
 			for (int column = 0; column < MAX_COLUMN; column++) {
-				tileTypes[row][column] = new TileType(this, row, column, 1, false, 0.5);
+				tileTypes[row][column] = new TileType(this, row, column, -1, false, 0.5);
 			}
 		}
 		canvas = createGraphics(300, 330, JAVA2D);
@@ -251,7 +251,7 @@ public class DrawingSurface extends PApplet {
 						// img = new PImage(300, 300, RGB);
 						canvas.beginDraw();
 						img = canvas.get(0, 30, 300, 300);
-						// saveFrame("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\Test.jpg");
+						//saveFrame("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\Test.jpg");
 						img.save(path +"asset" + assetCount + ".png");
 						canvas.clear();
 						canvas.endDraw();
@@ -303,7 +303,7 @@ public class DrawingSurface extends PApplet {
 				for (int row = 0; row < MAX_ROW; row++) {
 					for (int column = 0; column < MAX_COLUMN; column++) {
 						if (tileTypes[row][column].isPointInside(mouseX, mouseY)) {
-							if (!tileTypes[row][column].isDefault()) {
+							if (!(tileTypes[row][column].getAssetNum() == -1)) {
 
 								if (tileTypeSelected == null) {
 									tileTypeSelected = tileTypes[row][column];
@@ -340,7 +340,7 @@ public class DrawingSurface extends PApplet {
 								(mouseY - height / 2) / zoom + height / 2)) {
 							// System.out.println("Row: " + row + ", Column: " + column +
 							// "------------------------------------------------------");
-							// SET TILE ASSET TO TILETYPEASSET
+							tiles[row][column].setAssetNum(tileTypeSelected.getAssetNum());
 						}
 					}
 				}
@@ -367,7 +367,7 @@ public class DrawingSurface extends PApplet {
 								(mouseY - height / 2) / zoom + height / 2)) {
 							// System.out.println("Row: " + row + ", Column: " + column +
 							// "------------------------------------------------------");
-							// SET TILE TO TILETYPEASSET
+							tiles[row][column].setAssetNum(tileTypeSelected.getAssetNum());
 						}
 					}
 				}
