@@ -42,6 +42,7 @@ public class DrawingSurface extends PApplet {
 
 	public void setup() {
 		// SketchpadSurface drawing = new SketchpadSurface();
+		
 		offsetX = 0;
 		offsetY = 0;
 		optionTile = new Block(this, width - width / 4 + 60, height - 70, 30, 40);
@@ -66,11 +67,12 @@ public class DrawingSurface extends PApplet {
 
 		currX = mouseX;
 		currY = mouseY;
-		// scale(zoom);
+		pushMatrix();
+		scale(zoom);
 
 		for (int row = 0; row < TILE_MAX_ROW; row++) {
 			for (int column = 0; column < TILE_MAX_COLUMN; column++) {
-				if (tiles[row][column].isPointInside(mouseX, mouseY)) {
+				if (tiles[row][column].isPointInside(mouseX/zoom, mouseY/zoom)) {
 					fill(255);
 					stroke(255);
 					tiles[row][column].show();
@@ -82,7 +84,8 @@ public class DrawingSurface extends PApplet {
 
 			}
 		}
-
+		popMatrix();
+		
 		noStroke();
 		fill(70);
 		rect(width - width / 4, 0, width / 4 + 50, height, 50);
@@ -126,6 +129,8 @@ public class DrawingSurface extends PApplet {
 					tileTypes[row][column].draw();
 				}
 			}
+			fill(255, 0, 0);
+			tileTypeSelected.draw();
 		}
 
 	}
@@ -134,26 +139,11 @@ public class DrawingSurface extends PApplet {
 		if (mouseButton == LEFT) {
 			for (int row = 0; row < MAX_ROW; row++) {
 				for (int column = 0; column < MAX_COLUMN; column++) {
-					if (tileTypes[row][column] != null && tileTypes[row][column].isPointInside(mouseX, mouseY)) {
+					if (tileTypes[row][column].isPointInside(mouseX, mouseY)) {
 
-						if (tileTypeSelected == null) {
 							tileTypeSelected = tileTypes[row][column];
-							tileTypes[row][column].setSelected(true);
-						} else if (tileTypes[row][column].equals(tileTypeSelected)) {
-							tileTypeSelected = null;
-							tileTypes[row][column].setSelected(false);
-						} else {
-							for (int row2 = 0; row2 < MAX_ROW; row2++) {
-								for (int column2 = 0; column2 < MAX_COLUMN; column2++) {
-									if (tileTypes[row2][column2].equals(tileTypeSelected)) {
-										tileTypes[row2][column2].setSelected(false);
-									}
-								}
-							}
-							tileTypeSelected = tileTypes[row][column];
-							tileTypes[row][column].setSelected(true);
 
-						}
+						
 					}
 				}
 			}
@@ -186,26 +176,31 @@ public class DrawingSurface extends PApplet {
 
 	public void mouseWheel(MouseEvent event) {
 		float e = event.getCount();
-		if (e < 0) {
-			zoom *= 1/e;
-		} else if (e > 0) {
-			zoom *= e;
-		}
+		System.out.println(e);
+		zoom+=e*0.1;
 		
-		float offsetTempX;
+		if(zoom < 0.5) {
+			zoom = 0.5f;
+		} else if(zoom > 3) {
+			zoom = 3;
+		}
+		/*float offsetTempX;
 		float offsetTempY;
 		for (int row = 0; row < TILE_MAX_ROW; row++) {
 			for (int column = 0; column < TILE_MAX_COLUMN; column++) {
 				offsetTempX = tiles[row][column].getX() - width/2;
 				offsetTempY = tiles[row][column].getY() - height/2;
+				
 				tiles[row][column].setX(tiles[row][column].getX() - offsetX);
 				tiles[row][column].setY(tiles[row][column].getY() - offsetY);
+				
 				tiles[row][column].setWidth(tiles[row][column].getWidth()*zoom);
 				tiles[row][column].setHeight(tiles[row][column].getHeight()*zoom);
+				
 				tiles[row][column].setX(tiles[row][column].getX() + offsetTempX*zoom);
 				tiles[row][column].setY(tiles[row][column].getY() + offsetTempY*zoom);
 			}
-		}
+		}*/
 
 	}
 
