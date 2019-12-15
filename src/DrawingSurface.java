@@ -77,7 +77,7 @@ public class DrawingSurface extends PApplet {
 						(mouseY - height / 2) / zoom + height / 2)) {
 					fill(255);
 					stroke(255);
-					System.out.println("Row: " + row + ", Column: " + column);
+					//System.out.println("Row: " + row + ", Column: " + column);
 					tiles[row][column].draw();
 				} else {
 					//fill(0);
@@ -177,7 +177,7 @@ public class DrawingSurface extends PApplet {
 					for (int column = 0; column < TILE_MAX_COLUMN; column++) {
 						if (tiles[row][column].isPointInside((mouseX - 5 * width / 16) / zoom + 5 * width / 16,
 								(mouseY - height / 2) / zoom + height / 2)) {
-							System.out.println("Row: " + row + ", Column: " + column + "------------------------------------------------------");
+							//System.out.println("Row: " + row + ", Column: " + column + "------------------------------------------------------");
 							tiles[row][column].setColor(tileTypeSelected.getR(), tileTypeSelected.getG(), tileTypeSelected.getB());
 						}
 					}
@@ -196,6 +196,16 @@ public class DrawingSurface extends PApplet {
 				for (int column = 0; column < TILE_MAX_COLUMN; column++) {
 					tiles[row][column].setX(tiles[row][column].getX() - offsetX);
 					tiles[row][column].setY(tiles[row][column].getY() - offsetY);
+				}
+			}
+		} else if(mouseButton == LEFT) {
+			for (int row = 0; row < TILE_MAX_ROW; row++) {
+				for (int column = 0; column < TILE_MAX_COLUMN; column++) {
+					if (tiles[row][column].isPointInside((mouseX - 5 * width / 16) / zoom + 5 * width / 16,
+							(mouseY - height / 2) / zoom + height / 2)) {
+						//System.out.println("Row: " + row + ", Column: " + column + "------------------------------------------------------");
+						tiles[row][column].setColor(tileTypeSelected.getR(), tileTypeSelected.getG(), tileTypeSelected.getB());
+					}
 				}
 			}
 		}
