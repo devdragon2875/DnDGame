@@ -1,6 +1,5 @@
-import java.util.Random;
-
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class TileType extends Block {
 	private int row;
@@ -8,10 +7,8 @@ public class TileType extends Block {
 	private boolean isWall;
 	private double lightScale;
 	private int assetNum;
-	private int r;
-	private int g;
-	private int b;
-	
+	private boolean isDefault;
+
 	public TileType(PApplet drawer, int row, int column, int assetNum, boolean isWall, double lightScale) {
 		super(drawer,
 				(float) (drawer.width - drawer.width / 4 + 25 + DrawingSurface.MENU_SIZE * (row)
@@ -24,15 +21,17 @@ public class TileType extends Block {
 		this.assetNum = assetNum;
 		this.isWall = isWall;
 		this.lightScale = lightScale;
-		Random rand = new Random();
-		r = rand.nextInt(256);
-		g = rand.nextInt(256);
-		b = rand.nextInt(256);
+		this.isDefault = true;
 	}
-	
-	public void draw() {
-		drawer.fill(r, g, b);
-		drawer.rect(x, y, w, h);
+
+	public void show() {
+
+		super.show();
+		if (!isDefault) {
+			PImage img = drawer.loadImage(
+					"C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\asset" + assetNum + ".png");
+			drawer.image(img, super.x, super.y, super.w, super.h);
+		}
 	}
 
 	public int getRow() {
@@ -75,31 +74,14 @@ public class TileType extends Block {
 		this.assetNum = assetNum;
 	}
 
-	public int getR() {
-		return r;
+	public boolean isDefault() {
+		// TODO Auto-generated method stub
+		return isDefault;
 	}
 
-	public void setR(int r) {
-		this.r = r;
+	public void isDefault(boolean isDefault) {
+		// TODO Auto-generated method stub
+		this.isDefault = isDefault;
 	}
-
-	public int getG() {
-		return g;
-	}
-
-	public void setG(int g) {
-		this.g = g;
-	}
-
-	public int getB() {
-		return b;
-	}
-
-	public void setB(int b) {
-		this.b = b;
-	}
-
-	
-	
 
 }
