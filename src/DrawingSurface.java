@@ -26,7 +26,7 @@ public class DrawingSurface extends PApplet {
 										// 2 - Items
 										// 3 - Monsters
 										// 4 - Character
-	private Block optionTile, optionItem, optionCreature, optionCharacter;
+	private Block optionTile, optionItem, optionCreature, optionCharacter, optionMenu;
 	private TileType tileTypes[][] = new TileType[MAX_ROW][MAX_COLUMN];
 	private Tile tiles[][] = new Tile[TILE_MAX_ROW][TILE_MAX_COLUMN];
 	private TileType tileTypeSelected = null;
@@ -42,14 +42,14 @@ public class DrawingSurface extends PApplet {
 
 	public void setup() {
 		// SketchpadSurface drawing = new SketchpadSurface();
-		
+
 		offsetX = 0;
 		offsetY = 0;
 		optionTile = new Block(this, width - width / 4 + 60, height - 70, 30, 40);
 		optionItem = new Block(this, width - width / 4 + 110, height - 70, 30, 40);
 		optionCreature = new Block(this, width - width / 4 + 160, height - 70, 30, 40);
 		optionCharacter = new Block(this, width - width / 4 + 210, height - 70, 30, 40);
-
+		optionMenu = new Block(this, width - width / 4, 0, width / 4 + 50, height);
 		for (int row = 0; row < TILE_MAX_ROW; row++) {
 			for (int column = 0; column < TILE_MAX_COLUMN; column++) {
 				tiles[row][column] = new Tile(this, row * GRID_SIZE, column * GRID_SIZE, false, 1);
@@ -68,48 +68,50 @@ public class DrawingSurface extends PApplet {
 		currX = mouseX;
 		currY = mouseY;
 		pushMatrix();
-		translate(5*width/16, height/2);
+		translate(5 * width / 16, height / 2);
 		scale(zoom);
-		translate(-5*width/16, -height/2);
+		translate(-5 * width / 16, -height / 2);
 		for (int row = 0; row < TILE_MAX_ROW; row++) {
 			for (int column = 0; column < TILE_MAX_COLUMN; column++) {
-				if (tiles[row][column].isPointInside((mouseX-5*width/16)/zoom +5*width/16 , (mouseY-height/2)/zoom +height/2 )) {
+				if (tiles[row][column].isPointInside((mouseX - 5 * width / 16) / zoom + 5 * width / 16,
+						(mouseY - height / 2) / zoom + height / 2)) {
 					fill(255);
 					stroke(255);
-					tiles[row][column].show();
+					System.out.println("Row: " + row + ", Column: " + column);
+					tiles[row][column].draw();
 				} else {
-					fill(0);
+					//fill(0);
 					stroke(255);
 					tiles[row][column].show();
 				}
 
 			}
 		}
-		
+
 		popMatrix();
-		
+
 		noStroke();
 		fill(255, 0, 0);
-		rect(5*width/16+1, height/2+15, 30, 2);
-		rect(5*width/16+15, height/2+1, 2, 30);
-		
+		rect(5 * width / 16 + 1, height / 2 + 15, 30, 2);
+		rect(5 * width / 16 + 15, height / 2 + 1, 2, 30);
+
 		noStroke();
 		fill(70);
-		rect(width - width / 4, 0, width / 4 + 50, height, 50);
+		optionMenu.show();
 
 		if (MENU_OPTION == 1) {
 			fill(255, 250, 0);
 			optionTile.show();
-			
+
 			for (int row = 0; row < MAX_ROW; row++) {
 				for (int column = 0; column < MAX_COLUMN; column++) {
 					fill(170, 170, 170);
 					tileTypes[row][column].draw();
 				}
 			}
-			if(tileTypeSelected != null) {
-			fill(255, 0, 0);
-			tileTypeSelected.draw();
+			if (tileTypeSelected != null) {
+				fill(255, 0, 0);
+				tileTypeSelected.draw();
 			}
 		} else {
 			fill(255);
@@ -140,37 +142,49 @@ public class DrawingSurface extends PApplet {
 			optionCharacter.show();
 		}
 
-
-
 	}
 
 	public void mousePressed() {
+		
 		if (mouseButton == LEFT) {
-			for (int row = 0; row < MAX_ROW; row++) {
-				for (int column = 0; column < MAX_COLUMN; column++) {
-					if (tileTypes[row][column] != null && tileTypes[row][column].isPointInside(mouseX, mouseY)) {
+			if (optionMenu.isPointInside(mouseX, mouseY)) {
+				for (int row = 0; row < MAX_ROW; row++) {
+					for (int column = 0; column < MAX_COLUMN; column++) {
+						if (tileTypes[row][column] != null && tileTypes[row][column].isPointInside(mouseX, mouseY)) {
 
-						if (tileTypeSelected == null) {
-							tileTypeSelected = tileTypes[row][column];
-						} else if (tileTypes[row][column].equals(tileTypeSelected)) {
-							tileTypeSelected = null;
-						} else {
-							tileTypeSelected = tileTypes[row][column];
+							if (tileTypeSelected == null) {
+								tileTypeSelected = tileTypes[row][column];
+							} else if (tileTypes[row][column].equals(tileTypeSelected)) {
+								tileTypeSelected = null;
+							} else {
+								tileTypeSelected = tileTypes[row][column];
 
+							}
+						}
+					}
+				}
+				if (optionTile.isPointInside(mouseX, mouseY)) {
+					MENU_OPTION = 1;
+				} else if (optionItem.isPointInside(mouseX, mouseY)) {
+					MENU_OPTION = 2;
+				} else if (optionCreature.isPointInside(mouseX, mouseY)) {
+					MENU_OPTION = 3;
+				} else if (optionCharacter.isPointInside(mouseX, mouseY)) {
+					MENU_OPTION = 4;
+				}
+			} else if(tileTypeSelected != null) {
+				for (int row = 0; row < TILE_MAX_ROW; row++) {
+					for (int column = 0; column < TILE_MAX_COLUMN; column++) {
+						if (tiles[row][column].isPointInside((mouseX - 5 * width / 16) / zoom + 5 * width / 16,
+								(mouseY - height / 2) / zoom + height / 2)) {
+							System.out.println("Row: " + row + ", Column: " + column + "------------------------------------------------------");
+							tiles[row][column].setColor(tileTypeSelected.getR(), tileTypeSelected.getG(), tileTypeSelected.getB());
 						}
 					}
 				}
 			}
-			if (optionTile.isPointInside(mouseX, mouseY)) {
-				MENU_OPTION = 1;
-			} else if (optionItem.isPointInside(mouseX, mouseY)) {
-				MENU_OPTION = 2;
-			} else if (optionCreature.isPointInside(mouseX, mouseY)) {
-				MENU_OPTION = 3;
-			} else if (optionCharacter.isPointInside(mouseX, mouseY)) {
-				MENU_OPTION = 4;
-			}
 		}
+		
 
 	}
 
@@ -190,30 +204,28 @@ public class DrawingSurface extends PApplet {
 
 	public void mouseWheel(MouseEvent event) {
 		float e = event.getCount();
-		zoom+=e*0.1;
-		
-		if(zoom < 0.5) {
+		zoom += e * 0.1;
+
+		if (zoom < 0.5) {
 			zoom = 0.5f;
-		} else if(zoom > 3) {
+		} else if (zoom > 3) {
 			zoom = 3;
 		}
-		/*float offsetTempX;
-		float offsetTempY;
-		for (int row = 0; row < TILE_MAX_ROW; row++) {
-			for (int column = 0; column < TILE_MAX_COLUMN; column++) {
-				offsetTempX = tiles[row][column].getX() - width/2;
-				offsetTempY = tiles[row][column].getY() - height/2;
-				
-				tiles[row][column].setX(tiles[row][column].getX() - offsetX);
-				tiles[row][column].setY(tiles[row][column].getY() - offsetY);
-				
-				tiles[row][column].setWidth(tiles[row][column].getWidth()*zoom);
-				tiles[row][column].setHeight(tiles[row][column].getHeight()*zoom);
-				
-				tiles[row][column].setX(tiles[row][column].getX() + offsetTempX*zoom);
-				tiles[row][column].setY(tiles[row][column].getY() + offsetTempY*zoom);
-			}
-		}*/
+		/*
+		 * float offsetTempX; float offsetTempY; for (int row = 0; row < TILE_MAX_ROW;
+		 * row++) { for (int column = 0; column < TILE_MAX_COLUMN; column++) {
+		 * offsetTempX = tiles[row][column].getX() - width/2; offsetTempY =
+		 * tiles[row][column].getY() - height/2;
+		 * 
+		 * tiles[row][column].setX(tiles[row][column].getX() - offsetX);
+		 * tiles[row][column].setY(tiles[row][column].getY() - offsetY);
+		 * 
+		 * tiles[row][column].setWidth(tiles[row][column].getWidth()*zoom);
+		 * tiles[row][column].setHeight(tiles[row][column].getHeight()*zoom);
+		 * 
+		 * tiles[row][column].setX(tiles[row][column].getX() + offsetTempX*zoom);
+		 * tiles[row][column].setY(tiles[row][column].getY() + offsetTempY*zoom); } }
+		 */
 
 	}
 
