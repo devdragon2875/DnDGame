@@ -1,3 +1,5 @@
+import java.net.URL;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -8,6 +10,8 @@ public class TileType extends Block {
 	private double lightScale;
 	private int assetNum;
 	private boolean isDefault;
+
+	
 
 	public TileType(PApplet drawer, int row, int column, int assetNum, boolean isWall, double lightScale) {
 		super(drawer,
@@ -29,7 +33,7 @@ public class TileType extends Block {
 		super.show();
 		if (!isDefault) {
 			PImage img = drawer.loadImage(
-					"C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\asset" + assetNum + ".png");
+					DrawingSurface.path +"asset" + assetNum + ".png");
 			drawer.image(img, super.x, super.y, super.w, super.h);
 		}
 	}

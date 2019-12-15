@@ -21,6 +21,7 @@ public class DrawingSurface extends PApplet {
 	private static final int MAX_ROW = 4;
 	private static final int MAX_COLUMN = 10;
 
+	public static final String path = (System.getProperty("user.dir")+ "\\SavedPics\\");
 	private int assetCount = 0;
 
 	private int offsetX;
@@ -56,7 +57,7 @@ public class DrawingSurface extends PApplet {
 
 	public void setup() {
 		// SketchpadSurface drawing = new SketchpadSurface();
-
+		
 		offsetX = 0;
 		offsetY = 0;
 		sketchPadMode = false;
@@ -251,7 +252,7 @@ public class DrawingSurface extends PApplet {
 						canvas.beginDraw();
 						img = canvas.get(0, 30, 300, 300);
 						// saveFrame("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\Test.jpg");
-						img.save("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\asset" + assetCount + ".png");
+						img.save(path +"asset" + assetCount + ".png");
 						canvas.endDraw();
 						tileTypeSelected.setAssetNum(assetCount);
 						tileTypeSelected.isDefault(false);
