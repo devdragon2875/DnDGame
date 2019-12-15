@@ -253,6 +253,7 @@ public class DrawingSurface extends PApplet {
 						img = canvas.get(0, 30, 300, 300);
 						// saveFrame("C:\\Users\\devdr\\Desktop\\DnDCoolKids\\DnDSimulator\\SavedPics\\Test.jpg");
 						img.save(path +"asset" + assetCount + ".png");
+						canvas.clear();
 						canvas.endDraw();
 						tileTypeSelected.setAssetNum(assetCount);
 						tileTypeSelected.isDefault(false);
