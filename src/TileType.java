@@ -6,7 +6,6 @@ public class TileType extends Block {
 	private boolean isWall;
 	private double lightScale;
 	private int assetNum;
-	private boolean isSelected;
 
 	public TileType(PApplet drawer, int row, int column, int assetNum, boolean isWall, double lightScale) {
 		super(drawer,
@@ -15,7 +14,6 @@ public class TileType extends Block {
 				(float) (DrawingSurface.MENU_SIZE * (column) + DrawingSurface.MENU_BUFFER * (column + 1) + 25),
 				(float) DrawingSurface.MENU_SIZE, (float) DrawingSurface.MENU_SIZE);
 
-		this.isSelected = false;
 		this.row = row;
 		this.column = column;
 		this.assetNum = assetNum;
@@ -24,20 +22,7 @@ public class TileType extends Block {
 	}
 
 	public void draw() {
-		drawer.noStroke();
-		if (isSelected) {
-			drawer.fill(255, 0, 0);
-		} else {
-			drawer.fill(255, 255, 255, (float) lightScale * 255);
-		}
 		drawer.rect(x, y, w, h);
 	}
 
-	public void setSelected(boolean selected) {
-		isSelected = selected;
-	}
-
-	public boolean getSelected() {
-		return isSelected;
-	}
 }
